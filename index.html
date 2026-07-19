@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revibe AI — узнай, сколько стоит твоя вещь</title>
+<meta name="description" content="Сфотографируй вещь — узнай рыночную цену и получи готовое объявление для Avito за 15 секунд.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0B0F;
+    --surface: #14161D;
+    --surface-alt: #1C2130;
+    --border: #242938;
+    --accent: #7C5CFF;
+    --accent-soft: #B9A6FF;
+    --success: #3DD598;
+    --text: #F5F5F7;
+    --text-muted: #8A8F98;
+    --receipt-bg: #F4F1EA;
+    --receipt-text: #1A1A1A;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Manrope', sans-serif;
+    margin: 0;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+  }
+
+  .logo {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-cta {
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(124,92,255,0.35);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 56px 0 90px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-bottom: 20px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 0 3px rgba(61,213,152,0.2);
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .hero h1 span {
+    color: var(--accent-soft);
+  }
+
+  .hero p.lede {
+    font-size: 18px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 20px;
+    max-width: 460px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    padding: 16px 28px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(124,92,255,0.4);
+  }
+
+  .btn-ghost {
+    color: var(--text);
+    text-decoration: none;
+    padding: 16px 20px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 15px;
+    border: 1px solid var(--border);
+    display: inline-flex;
+    align-items: center;
+  }
+  .btn-ghost:hover { border-color: var(--accent-soft); }
+
+  .trust-row {
+    display: flex;
+    gap: 28px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .trust-item strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    color: var(--text);
+  }
+  .trust-item span {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ---------- SIGNATURE: RECEIPT DEVICE ---------- */
+  .device-stage {
+    display: flex;
+    justify-content: center;
+    perspective: 1200px;
+  }
+
+  .phone {
+    width: 260px;
+    height: 540px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    transform: rotate(-3deg);
+  }
+
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 6px;
+    border-radius: 4px;
+    background: #000;
+    z-index: 3;
+  }
+
+  .phone-slot {
+    position: absolute;
+    top: 0; left: 12px; right: 12px;
+    height: 34px;
+    background: linear-gradient(180deg, #000 0%, transparent 100%);
+    z-index: 2;
+  }
+
+  .receipt-track {
+    position: absolute;
+    inset: 34px 0 0 0;
+    overflow: hidden;
+  }
+
+  .receipt {
+    width: calc(100% - 24px);
+    margin: 0 12px;
+    background: var(--receipt-bg);
+    color: var(--receipt-text);
+    border-radius: 4px 4px 10px 10px;
+    padding: 18px 16px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    position: relative;
+    animation: printOut 6s cubic-bezier(0.22,1,0.36,1) infinite;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+  }
+
+  .receipt::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 12px;
+    background:
+      linear-gradient(-45deg, transparent 6px, var(--receipt-bg) 6px) 0 0/12px 12px repeat-x;
+  }
+
+  .receipt .r-title {
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 11px;
+    border-bottom: 1px dashed #999;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .receipt .r-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .receipt .r-verdict {
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+    color: #1a7a4c;
+    margin: 12px 0 4px;
+  }
+
+  .receipt .r-total {
+    border-top: 1px dashed #999;
+    margin-top: 10px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  @keyframes printOut {
+    0%   { transform: translateY(-92%); }
+    12%  { transform: translateY(0%); }
+    75%  { transform: translateY(0%); }
+    100% { transform: translateY(-92%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .receipt { animation: none; transform: translateY(0%); }
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  section { padding: 70px 0; }
+  .section-head { max-width: 560px; margin-bottom: 44px; }
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-soft);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .section-head h2 {
+    font-size: clamp(28px, 3.4vw, 38px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .section-head p {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-top: 14px;
+    line-height: 1.6;
+  }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+  }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-soft);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .step h3 {
+    font-size: 19px;
+    margin-top: 14px;
+    font-weight: 700;
+  }
+  .step p {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+
+  /* ---------- FEATURES ---------- */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .feature {
+    background: var(--surface-alt);
+    border-radius: 20px;
+    padding: 26px;
+  }
+  .feature h3 {
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .feature p {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  .feature-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--success);
+    flex-shrink: 0;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta-band {
+    background: linear-gradient(135deg, var(--surface-alt), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 56px 40px;
+    text-align: center;
+  }
+  .cta-band h2 {
+    font-size: clamp(26px, 3.6vw, 36px);
+    font-weight: 800;
+  }
+  .cta-band p {
+    color: var(--text-muted);
+    margin-top: 12px;
+    font-size: 16px;
+  }
+  .cta-band .btn-primary { margin-top: 26px; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0 60px;
+  }
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .footer-links a:hover { color: var(--text); }
+  .footer-note {
+    color: #4A4F5A;
+    font-size: 13px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; }
+    .device-stage { order: -1; }
+    .phone { width: 220px; height: 460px; }
+    .steps { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <nav>
+      <div class="logo">Revibe <span style="color:var(--accent-soft)">AI</span></div>
+      <a class="nav-cta" href="#download">Скачать</a>
+    </nav>
+  </div>
+
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow">РАБОТАЕТ ПРЯМО СЕЙЧАС</div>
+      <h1>Шкаф полон вещей.<br>AI знает, <span>что из них продать.</span></h1>
+      <p class="lede">
+        Сфотографируй вещь — за 15 секунд получишь рыночную цену,
+        категорию и готовый текст объявления для Avito. Без сомнений
+        «а вдруг продешевлю».
+      </p>
+
+      <div class="hero-ctas">
+        <a class="btn-primary" href="#download">
+          Скачать приложение →
+        </a>
+        <a class="btn-ghost" href="#how">Как это работает</a>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-item">
+          <strong>~15 сек</strong>
+          <span>на один анализ</span>
+        </div>
+        <div class="trust-item">
+          <strong>GPT-4o</strong>
+          <span>определяет вещь</span>
+        </div>
+        <div class="trust-item">
+          <strong>₽</strong>
+          <span>цена под Avito</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="device-stage">
+      <div class="phone">
+        <div class="phone-slot"></div>
+        <div class="receipt-track">
+          <div class="receipt">
+            <div class="r-title">Revibe · AI-анализ</div>
+            <div class="r-row"><span>Вещь</span><span>Джинсы</span></div>
+            <div class="r-row"><span>Состояние</span><span>Хорошее</span></div>
+            <div class="r-row"><span>Категория</span><span>Одежда</span></div>
+            <div class="r-verdict">✓ ПРОДАТЬ</div>
+            <div class="r-row"><span>Цена на Avito</span><span>1500–3000 ₽</span></div>
+            <div class="r-total"><span>Прибыль</span><span>≈ 2500 ₽</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" id="how">
+    <section>
+      <div class="section-head">
+        <span class="section-eyebrow">ПРОЦЕСС</span>
+        <h2>От фото до объявления — три шага</h2>
+        <p>Никакой ручной оценки и подбора цены наугад — всё делает модель, обученная на тысячах объявлений о перепродаже.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Фотографируешь вещь</h3>
+          <p>Любое фото на телефон — фон, ракурс и освещение не важны, AI распознаёт вещь в любых условиях.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>AI оценивает</h3>
+          <p>Определяет категорию, состояние и реальную рыночную цену — с поправкой на торг, как это принято на Avito.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Копируешь объявление</h3>
+          <p>Готовый живой текст объявления — просто вставляешь в форму на Avito и публикуешь.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section>
+      <div class="section-head">
+        <span class="section-eyebrow">ЧТО ВНУТРИ</span>
+        <h2>Сделано для тех, кто разбирает шкаф, а не ведёт бизнес</h2>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <h3><span class="feature-dot"></span>Честная цена</h3>
+          <p>AI ориентируется на реальный рынок перепродажи в России, а не на цену новой вещи из магазина.</p>
+        </div>
+        <div class="feature">
+          <h3><span class="feature-dot"></span>Объявление за секунду</h3>
+          <p>Живой текст без канцелярита — как будто ты сам сел и написал, только быстрее.</p>
+        </div>
+        <div class="feature">
+          <h3><span class="feature-dot"></span>История анализов</h3>
+          <p>Все прошлые оценки сохраняются прямо на устройстве — ничего не улетает на сторонние сервера без нужды.</p>
+        </div>
+        <div class="feature">
+          <h3><span class="feature-dot"></span>Решение "продать или оставить"</h3>
+          <p>Не только цена — AI прямо говорит, стоит ли вообще возиться с продажей этой вещи.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="wrap" id="download">
+    <section>
+      <div class="cta-band">
+        <h2>Хватит гадать, сколько стоят твои вещи</h2>
+        <p>Установи Revibe AI и получи первую оценку уже сегодня.</p>
+        <a class="btn-primary" href="https://www.rustore.ru/catalog/app/com.sokrat.revibeai">Скачать в RuStore →</a>
+      </div>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <footer>
+      <div class="footer-row">
+        <div class="logo" style="font-size:16px;">Revibe AI</div>
+        <div class="footer-links">
+          <a href="https://revibe-server-1.onrender.com/privacy">Политика конфиденциальности</a>
+          <a href="https://revibe-server-1.onrender.com/terms">Пользовательское соглашение</a>
+          <a href="mailto:kukuruzka2010@yandex.ru">Написать нам</a>
+        </div>
+      </div>
+      <div class="footer-note">
+        ИП Тислина Ирина Сергеевна · ИНН 771874235604
+      </div>
+    </footer>
+  </div>
+
+</body>
+</html>
